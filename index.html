@@ -2,10 +2,298 @@
 <html lang="th">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
   <title>ขอเป็นแฟนกันนะ</title>
   <link href="https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css">
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Kanit', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+      user-select: none;
+    }
+
+    body {
+      background-color: #fce4ec;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      min-height: -webkit-fill-available;
+      overflow: hidden;
+      padding: 16px;
+    }
+
+    html {
+      height: -webkit-fill-available;
+    }
+
+    .card-container {
+      background: #ffffff;
+      width: 100%;
+      max-width: 450px;
+      border-radius: 28px;
+      padding: 36px 24px;
+      box-shadow: 0 12px 32px rgba(240, 98, 146, 0.22);
+      text-align: center;
+      position: relative;
+      border: 3px solid #f8bbd0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .character-img {
+      width: 140px;
+      height: 140px;
+      object-fit: contain;
+      margin-bottom: 20px;
+      animation: float 3s ease-in-out infinite !important;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-12px); }
+    }
+
+    .title {
+      font-size: 1.8rem;
+      color: #d81b60;
+      margin-bottom: 12px;
+      font-weight: 600;
+      word-break: break-word;
+    }
+
+    .subtitle {
+      font-size: 1.05rem;
+      color: #880e4f;
+      line-height: 1.6;
+      margin-bottom: 28px;
+      padding: 0 8px;
+    }
+
+    .btn-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 16px;
+      position: relative;
+      width: 100%;
+      min-height: 80px;
+    }
+
+    button {
+      border: none;
+      border-radius: 50px;
+      padding: 14px 32px;
+      font-size: 1.15rem;
+      font-weight: 600;
+      cursor: pointer;
+      touch-action: manipulation;
+      transition: transform 0.15s ease, background-color 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    #skipBtn {
+      background: transparent;
+      color: #333333;
+      font-size: 1rem;
+      font-weight: 500;
+      border: none;
+      box-shadow: none;
+      padding: 8px 16px;
+      border-radius: 0;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+
+    #skipBtn:active {
+      transform: scale(0.96);
+      opacity: 0.8;
+    }
+
+    #yesBtn {
+      background-color: #ec407a;
+      color: white;
+      box-shadow: 0 6px 18px rgba(236, 64, 122, 0.4);
+    }
+
+    #yesBtn:active {
+      transform: scale(0.96);
+    }
+
+    #noBtn {
+      background-color: #f48fb1;
+      color: white;
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+      transition: transform 0.15s ease-out;
+    }
+
+    .wave-loading span {
+      display: inline-block;
+      animation: waveTextSlow 2.5s infinite ease-in-out;
+    }
+
+    .wave-loading span:nth-child(1)  { animation-delay: 0.0s; }
+    .wave-loading span:nth-child(2)  { animation-delay: 0.15s; }
+    .wave-loading span:nth-child(3)  { animation-delay: 0.30s; }
+    .wave-loading span:nth-child(4)  { animation-delay: 0.45s; }
+    .wave-loading span:nth-child(5)  { animation-delay: 0.60s; }
+    .wave-loading span:nth-child(6)  { animation-delay: 0.75s; }
+    .wave-loading span:nth-child(7)  { animation-delay: 0.90s; }
+    .wave-loading span:nth-child(8)  { animation-delay: 1.05s; }
+    .wave-loading span:nth-child(9)  { animation-delay: 1.20s; }
+    .wave-loading span:nth-child(10) { animation-delay: 1.35s; }
+    .wave-loading span:nth-child(11) { animation-delay: 1.50s; }
+    .wave-loading span:nth-child(12) { animation-delay: 1.65s; }
+    .wave-loading span:nth-child(13) { animation-delay: 1.80s; }
+
+    @keyframes waveTextSlow {
+      0%, 100% {
+        transform: translateY(0);
+        opacity: 0.5;
+      }
+      50% {
+        transform: translateY(-6px);
+        opacity: 1;
+      }
+    }
+
+    .animate-fade-up {
+      animation: fadeUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .animate-zoom-in {
+      animation: zoomIn 0.7s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+    }
+
+    @keyframes fadeUp {
+      0% {
+        opacity: 0;
+        transform: translateY(35px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes zoomIn {
+      0% {
+        opacity: 0;
+        transform: scale(0.7);
+      }
+      100% {
+        opacity: 1;
+        transform: scale(1);
+      }
+    }
+
+    .char-slide {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(15px);
+      animation: charSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    .char-fast {
+      display: inline-block;
+      opacity: 0;
+      transform: translateY(10px);
+      animation: charFastUp 0.2s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes charSlideUp {
+      0% { opacity: 0; transform: translateY(15px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes charFastUp {
+      0% { opacity: 0; transform: translateY(10px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .layer-fade-persist {
+      opacity: 0;
+      transform: translateY(15px);
+      animation: persistFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) 0.6s forwards;
+    }
+
+    @keyframes persistFade {
+      0% { opacity: 0; transform: translateY(15px); }
+      100% { opacity: 1; transform: translateY(0); }
+    }
+
+    .layer-heart-persist {
+      opacity: 0;
+      transform: translateY(15px);
+      animation: persistFade 0.6s cubic-bezier(0.16, 1, 0.3, 1) 1.5s forwards;
+    }
+
+    .fingerprint-bounce {
+      display: inline-block;
+      cursor: pointer;
+      animation: heartWiggle 1.8s infinite ease-in-out;
+    }
+
+    @keyframes heartWiggle {
+      0%, 100% { transform: translateY(0) rotate(0deg) scale(1); }
+      25% { transform: translateY(-8px) rotate(-6deg) scale(1.05); }
+      50% { transform: translateY(0) rotate(0deg) scale(1); }
+      75% { transform: translateY(-8px) rotate(6deg) scale(1.05); }
+    }
+
+    .hidden-btn {
+      display: none !important;
+    }
+
+    #skipBtn:not(.hidden-btn) {
+      animation: pulseBlink 1.8s ease-in-out infinite !important;
+    }
+
+    @keyframes pulseBlink {
+      0% { opacity: 0.2; transform: scale(0.98); }
+      50% { opacity: 1; transform: scale(1); }
+      100% { opacity: 0.2; transform: scale(0.98); }
+    }
+
+    .animated-heart {
+      display: inline-block;
+      color: #ff2e63 !important;
+      opacity: 0;
+      transform: translateY(15px);
+      animation: charSlideUp 0.4s ease forwards, heartBeat 1.2s infinite ease-in-out;
+    }
+
+    @keyframes charSlideUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes heartBeat {
+      0%, 100% {
+        transform: translateY(0) scale(1);
+      }
+      50% {
+        transform: translateY(-4px) scale(1.15);
+      }
+    }
+
+    .click-locked {
+      pointer-events: none !important;
+      user-select: none !important;
+    }
+
+    .heart-not-ready {
+      opacity: 0.3;
+      cursor: not-allowed;
+      pointer-events: none;
+    }
+  </style>
 </head>
 <body>
 
@@ -13,6 +301,251 @@
     <!-- หน้าจอจะเปลี่ยนไปตามสเต็ปโดยอัตโนมัติ -->
   </div>
 
-  <script src="script.js"></script>
+  <script>
+    const images = {
+      loading: 'https://img.pikbest.com/png-images/qianku/pale-pink-tanabata-love-envelope_2274753.png!sw800',
+      question: 'https://media.tenor.com/DjJVEIj5mPAAAAAj/gif-bacbac.gif',
+      asking: 'https://media.tenor.com/J4kkypHiRTQAAAAM/emoji-azul.gif',
+      success: 'https://img.freepik.com/free-vector/hand-drawn-asian-couple-illustration_23-2150041390.jpg',
+      fingerprint: 'https://cdn-icons-png.flaticon.com/512/833/833472.png'
+    };
+
+    const noTexts = [
+      'ไม่เป็น',
+      'แน่ใจเหรอ? 🥺',
+      'ลองกดใหม่ดิ๊ 😜',
+      'กดไม่โดนหรอก!',
+      'อย่าใจร้ายสิ 💔',
+      'คิดอีกทีนะ...',
+      'ยอมเป็นเถอะนะ! ❤️'
+    ];
+
+    let step = 1;
+    let yesScale = 1;
+    let noClickCount = 0;
+    let lastMoveTime = 0;
+
+    let isLocked = false;
+
+    function thaiTextSplitting(text, className, startDelay = 0.1) {
+      const chars = [];
+      let i = 0;
+      while (i < text.length) {
+        let char = text[i];
+        while (i + 1 < text.length && /[\u0E31\u0E34-\u0E3A\u0E47-\u0E4E]/.test(text[i + 1])) {
+          char += text[i + 1];
+          i++;
+        }
+        chars.push(char);
+        i++;
+      }
+
+      return chars.map((item, index) => {
+        if (item === ' ') return ' ';
+        const delay = startDelay + (index * 0.035);
+        return `<span class="${className}" style="animation-delay: ${delay}s;">${item}</span>`;
+      }).join('');
+    }
+
+    function startProgressBar() {
+      let progress = 0;
+      const fill = document.getElementById('progressFill');
+      const percentText = document.getElementById('percentText');
+      const statusText = document.getElementById('statusText');
+      const continueBtn = document.getElementById('skipBtn');
+
+      if (!fill || !percentText) return;
+
+      const interval = setInterval(() => {
+        progress += Math.random() * 1.0 + 0.4; 
+
+        if (progress >= 100) {
+          progress = 100;
+          clearInterval(interval);
+          fill.style.width = '100%';
+          percentText.innerText = '100%';
+          if (statusText) statusText.innerText = 'เตรียมพร้อมเรียบร้อยแล้ว!';
+          
+          if (continueBtn) {
+            continueBtn.classList.remove('hidden-btn');
+          }
+        } else {
+          fill.style.width = progress + '%';
+          percentText.innerText = Math.floor(progress) + '%';
+
+          if (statusText) {
+            if (progress > 30 && progress < 70) {
+              statusText.innerText = 'รอโหลดสักครู่นะ...';
+            } else if (progress >= 70) {
+              statusText.innerText = 'เกือบเสร็จแล้ว...';
+            }
+          }
+        }
+      }, 75);
+    }
+
+    function renderPage() {
+      const card = document.getElementById('card');
+
+      if (step === 1) {
+        const subtitleText = "กำลังเตรียมอะไรบางอย่างสุดน่ารักให้เธอดูรอแป๊บน้า...";
+        const animatedSub = thaiTextSplitting(subtitleText, 'char-slide', 0.2);
+
+        card.innerHTML = `
+          <img src="${images.loading}" class="character-img animate-zoom-in" alt="Loading">
+          <div class="title wave-loading animate-fade-up" style="animation-delay: 0.1s;">
+            <span>L</span><span>o</span><span>a</span><span>d</span><span>i</span><span>n</span><span>g</span><span>.</span><span>.</span><span>.</span><span>.</span><span>.</span><span>.</span>
+          </div>
+          <div class="subtitle" style="color: #4a4a4a;">
+            ${animatedSub}
+          </div>
+          
+          <div class="loading-box animate-fade-up" style="animation-delay: 0.3s; width: 85%; max-width: 280px; margin: 0 auto 15px auto; display: flex; flex-direction: column; align-items: center; gap: 6px;">
+            <div class="loading-text-status" id="statusText" style="font-size: 0.9rem; color: #c2185b; font-weight: 600;">กำลังโหลด...</div>
+            <div class="progress-track" style="width: 100%; height: 12px; background-color: #f8bbd0; border-radius: 20px; padding: 2px; overflow: hidden; position: relative;">
+              <div class="progress-fill" id="progressFill" style="height: 100%; width: 0%; background: linear-gradient(90deg, #ff80ab, #ec407a); border-radius: 20px; transition: width 0.1s linear;"></div>
+            </div>
+            <div class="percent-text" id="percentText" style="font-size: 0.85rem; color: #ec407a; font-weight: 600;">0%</div>
+          </div>
+
+          <button id="skipBtn" class="hidden-btn" onclick="nextStep()">
+            <u>แตะเพื่อข้ามหน้าต่อไป</u>
+          </button>
+        `;
+
+        startProgressBar();
+      } 
+      else if (step === 2) {
+        isLocked = true;
+        setTimeout(() => {
+          isLocked = false;
+        }, 1800);
+
+        const baseText = "มีเรื่องสำคัญอยากจะถามเธอ..";
+        const heartDelay = 0.1 + (baseText.length * 0.035);
+        
+        const titleText = thaiTextSplitting(baseText, 'char-slide', 0.1) + 
+          ` <span class="animated-heart" style="animation-delay: ${heartDelay}s, ${heartDelay + 0.4}s;">❤️</span>`;
+          
+        const fastLineText = thaiTextSplitting("ถ้าอยากฟังคำตอบนี้ต่อ ต้องลงนามด้วยการสแกนลายนิ้วมือตรงนี้", 'char-fast', 0.8);
+
+        card.innerHTML = `
+          <img src="${images.question}" class="character-img animate-zoom-in" alt="Question">
+          
+          <div class="title" style="color: #000000; font-weight: 600;">
+            ${titleText}
+          </div>
+          
+          <div class="subtitle layer-fade-persist" style="color: #000000; font-size: 0.95rem; line-height: 1.7; margin-bottom: 12px;">
+            ตั้งแต่วันแรกที่เราได้คุยกันมันรู้สึกดีมากเลยนะเธอ<br>
+            เลยอยากถามจากใจจริงเลยว่า...
+          </div>
+
+          <div class="subtitle" style="color: #000000; font-size: 0.9rem; line-height: 1.5; margin-bottom: 12px; padding: 0;">
+            ${fastLineText}
+          </div>
+          
+          <div class="fingerprint-wrapper layer-heart-persist" style="margin-top: 5px;">
+            <img src="${images.fingerprint}" 
+                 class="fingerprint-bounce" 
+                 style="width: 75px; height: 75px; object-fit: contain; padding: 8px; border: 2px dashed #f48fb1; border-radius: 16px; background-color: #fff5f8; cursor: pointer;" 
+                 onclick="nextStep()" 
+                 alt="Fingerprint">
+          </div>
+        `;
+      } 
+      else if (step === 3) {
+        const promiseText = "เค้าสัญญาว่าจะดูแลเธอให้ดีที่สุดเท่าที่เค้าจะทำได้";
+        const animatedPromise = thaiTextSplitting(promiseText, 'char-slide', 0.4);
+
+        card.innerHTML = `
+          <img src="${images.asking}" class="character-img animate-zoom-in" id="question" alt="Ask">
+          
+          <div class="title" style="animation: pulseBlink 0.6s ease-in-out 2, zoomIn 0.5s forwards;">
+            เป็นแฟนกับเค้าได้ไหม?
+          </div>
+          
+          <div class="subtitle" style="color: #000000; font-weight: 400; margin-top: 6px;">
+            ${animatedPromise}
+          </div>
+
+          <div class="btn-container">
+            <button id="yesBtn" onclick="nextStep()" style="transform: scale(${yesScale}); position: relative; z-index: 10;">เป็น</button>
+            <button id="noBtn" style="position: relative; z-index: 100;">ไม่เป็น</button>
+          </div>
+        `;
+
+        const noBtn = document.getElementById('noBtn');
+        const yesBtn = document.getElementById('yesBtn');
+
+        function moveNoButton(e) {
+          if (e) {
+            e.preventDefault();
+            e.stopPropagation();
+          }
+
+          const now = Date.now();
+          if (now - lastMoveTime < 150) {
+            return;
+          }
+          lastMoveTime = now;
+
+          noClickCount++;
+
+          const textIndex = Math.min(noClickCount, noTexts.length - 1);
+          noBtn.innerText = noTexts[textIndex];
+
+          yesScale += 0.35;
+          yesBtn.style.transform = `scale(${yesScale})`;
+          yesBtn.style.zIndex = '10';
+
+          if (yesScale >= 3.2) {
+            noBtn.style.display = 'none';
+            return;
+          }
+
+          const padding = 20;
+          const btnWidth = noBtn.offsetWidth || 100;
+          const btnHeight = noBtn.offsetHeight || 40;
+
+          const maxX = window.innerWidth - btnWidth - padding;
+          const maxY = window.innerHeight - btnHeight - padding;
+
+          const randomX = Math.max(padding, Math.floor(Math.random() * maxX));
+          const randomY = Math.max(padding, Math.floor(Math.random() * maxY));
+          const randomRotate = (Math.random() - 0.5) * 45;
+
+          noBtn.style.position = 'fixed';
+          noBtn.style.left = `${randomX}px`;
+          noBtn.style.top = `${randomY}px`;
+          noBtn.style.transform = `rotate(${randomRotate}deg)`;
+          noBtn.style.zIndex = '100';
+        }
+
+        ['touchstart', 'pointerdown', 'mousedown', 'mouseover'].forEach(eventType => {
+          noBtn.addEventListener(eventType, moveNoButton, { passive: false });
+        });
+      } 
+      else if (step === 4) {
+        card.innerHTML = `
+          <img src="${images.success}" class="character-img animate-zoom-in" alt="Success">
+          <div class="title animate-fade-up">เย้! เราเป็นแฟนกันแ๊ล้วนะ ❤️</div>
+          <div class="subtitle animate-fade-up" style="color: #000000;">
+            ขอบคุณที่เลือกเค้านะ ตั้งแต่วันนี้เป็นต้นไป ขอให้ทุกวันของเรามีแต่รอยยิ้ม<br>
+            และความสดใสแบบนี้ตลอดไปเลยนะ!<br> อย่าทิ้งเค้าไปไหนนะ จุ๊บๆ🥺
+          </div>
+        `;
+      }
+    }
+
+    function nextStep() {
+      if (isLocked) return; 
+      
+      step++;
+      renderPage();
+    }
+
+    renderPage();
+  </script>
 </body>
 </html>
